@@ -13,8 +13,7 @@ class TarjetaPersonaje extends Component {
 
     componentDidMount(){
         let arrayFavoritos = [];
-
-        let recuperoStorage = localStorage.getItem('favoritos')
+        let recuperoStorage = localStorage.getItem('favoritos');
         
         if(recuperoStorage !== null){
             arrayFavoritos = JSON.parse(recuperoStorage);
@@ -31,16 +30,33 @@ class TarjetaPersonaje extends Component {
     agregarAFavoritos(id){
         // Agregar un id dentro de array y colocar ese array en localStorage
         let arrayFavoritos = []
-        arrayFavoritos.push(id)
+        let recuperoStorage = localStorage.getItem('favoritos');
+        
+        if(recuperoStorage !== null){
+           arrayFavoritos = JSON.parse(recuperoStorage);   
+        }
+           
+        if(arrayFavoritos.includes(id)){
+            //Si el id está en el array queremos sacar el id.
+            arrayFavoritos = arrayFavoritos.filter( unId => unId !== id);
+
+            this.setState({
+                textoBoton: "Agregar a Favoritos"
+            })
+
+
+        } else {
+            arrayFavoritos.push(id);
+            this.setState({
+                textoBoton: "Quitar de favoritos"
+            })
+        }
 
         //Subirlo a local storage stringifeado
         let arrayFavoritosAString = JSON.stringify(arrayFavoritos)
         localStorage.setItem('favoritos', arrayFavoritosAString)
 
-        this.setState({
-            textoBoton: "Quitar de favoritos"
-        })
-        
+        console.log(localStorage)
     }
 
 
