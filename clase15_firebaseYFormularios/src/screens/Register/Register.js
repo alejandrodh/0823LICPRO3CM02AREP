@@ -30,18 +30,23 @@ class Register extends Component {
                     style={styles.input}
                     onChangeText={(text)=>this.setState({email: text})}
                     placeholder='email'
-                    keyboardType='email-address'/>
+                    keyboardType='email-address'
+                    value={this.state.email}
+                    />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({userName: text})}
                     placeholder='user name'
-                    keyboardType='default'/>
+                    keyboardType='default'
+                    value={this.state.userName}
+                    />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({password: text})}
                     placeholder='password'
                     keyboardType='email-address'
                     secureTextEntry={true}
+                    value={this.state.password}
                 />
                 <TouchableOpacity style={styles.button} onPress={()=>this.register(this.state.email, this.state.password)}>
                     <Text style={styles.textButton}>Registrarse</Text>    
