@@ -1,1 +1,2 @@
-Presentamos TabNavigation de forma teórica. Dejamos la aplicación práctica para la clase del lunes.
+## Práctiquemos en clase
+Crear Posteos y mostrarlos en Home.
