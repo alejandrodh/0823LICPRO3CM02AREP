@@ -8,29 +8,36 @@ class PostForm extends Component {
         super()
         this.state={
            textoPost:'',
+           fotoUrl:'',
         }
     }
 
     //1)Completar la creación de posts
-    crearPost(owner, textoPost, createdAt){
+    crearPost(owner, textoPost, fotoUrl, createdAt){
         //Crear la colección Users
         db.collection('posts').add({
             owner: owner, //auth.currentUser.email,
             textoPost: textoPost, //this.state.textoPost,
+            fotoUrl:fotoUrl,
+            likes:[],
             createdAt: createdAt //Date.now(), 
         })
         .then( res => console.log(res))
         .catch( e => console.log(e))
     }
 
-    
+    traerUrlDeFoto(url){
+        this.setState({
+            fotoUrl:url
+        })
+    }
 
     render(){
         return(
             <View style={styles.formContainer}>
-                <Text>Debajo la cámara</Text>
-                <MyCamera />
                 <Text>New Post</Text>
+                {/* Corregir estilos para que se vea bien la cámara */}
+                <MyCamera style={styles.camera} traerUrlDeFoto = {url=>this.traerUrlDeFoto(url)} />
                 <TextInput
                     style={styles.input}
                     onChangeText={(text)=>this.setState({textoPost: text})}
@@ -38,7 +45,7 @@ class PostForm extends Component {
                     keyboardType='default'
                     value={this.state.textoPost}
                     />
-                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, Date.now())}>
+                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, this.state.fotoUrl, Date.now())}>
                     <Text style={styles.textButton}>Postear</Text>    
                 </TouchableOpacity>
             </View>
@@ -50,6 +57,7 @@ const styles = StyleSheet.create({
     formContainer:{
         paddingHorizontal:10,
         marginTop: 20,
+        flex:6
     },
     input:{
         height:20,
@@ -73,6 +81,9 @@ const styles = StyleSheet.create({
     },
     textButton:{
         color: '#fff'
+    },
+    camera:{
+        height: 400,
     }
 
 })
