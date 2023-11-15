@@ -38,6 +38,14 @@ class MyCamera extends Component {
             .catch(e=>console.log(e))
     }
 
+    cancelar(){
+        console.log("Cancelando...");
+        this.setState({
+            urlInternaFoto:'',
+            mostrarCamara: true,
+        })
+    }
+
     guardarFoto(){
         fetch(this.state.urlInternaFoto)
             .then( res => res.blob()) //.blob() recupera datos binarios. Las fotos son archivos binarios.
@@ -76,14 +84,16 @@ class MyCamera extends Component {
                                 source={{uri:this.state.urlInternaFoto}}
                                 style={ styles.cameraBody }
                             />
-                            {/* Corregir estilos para que se vea la imagen */}
-                            {/* Corregir estilos para que los botones desaparezcan una vez que el usuario aceptó o canceló el preview */}
-                            <TouchableOpacity onPress={ () => this.guardarFoto() }>
-                                <Text>Aceptar</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity >
-                                <Text>Cancelar</Text>
-                            </TouchableOpacity>
+                            {/* Corregir estilos para que se vea la imagen. Resuelto ✅.*/}
+                            {/* Corregir estilos para que los botones desaparezcan una vez que el usuario aceptó o canceló el preview. Resuelto ✅ */}
+                            <View style={styles.confirm}>
+                                <TouchableOpacity style={styles.cancelButton} onPress={()=>this.cancelar()}>
+                                    <Text style = { styles.textButton }>Cancelar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.confirmButton} onPress={ () => this.guardarFoto() }>
+                                    <Text style = { styles.textButton }>Aceptar</Text>
+                                </TouchableOpacity>
+                            </View>
                         </React.Fragment>
                         
                         :
@@ -96,7 +106,7 @@ class MyCamera extends Component {
                                 style = { styles.cameraBody }
                             />
                             <TouchableOpacity  style = { styles.button } onPress={()=> this.SacarFoto()}>
-                                <Text>Sacar Foto</Text>
+                                <Text style = { styles.textButton }>Sacar Foto</Text>
                             </TouchableOpacity>
                         </React.Fragment>
                     :
@@ -112,13 +122,45 @@ class MyCamera extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        //flex:1,
+        height:"45vh",
+        
     },
     cameraBody: {
-        flex:7
+      marginTop: 20,
+      marginBottom: 10,
+      height:"40vh",
     },
     button:{
-        flex:2,
+        backgroundColor:'#28a745',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius:4, 
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor: '#28a745'
+    },
+    textButton:{
+        color: '#fff',
+        textAlign: "center"
+    },
+    confirm:{
+        flexDirection:"row",
+        justifyContent: "space-between"
+    },
+    confirmButton:{
+        backgroundColor:'#28a745',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius:4, 
+    },
+    cancelButton:{
+        backgroundColor:'#dc3545',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        textAlign: 'center',
+        borderRadius:4, 
     }
 })
 

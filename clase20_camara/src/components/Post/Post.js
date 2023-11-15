@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import {TextInput, TouchableOpacity, View, Text, StyleSheet, FlatList} from 'react-native';
+import {Image, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import { db, auth } from '../../firebase/config';
 import firebase from 'firebase';
 
@@ -58,29 +58,66 @@ class Post extends Component {
     render(){
         console.log(this.props);
         return(
-            <View>
-                <Text>Datos del Post</Text>
-                <Text> Email: {this.props.infoPost.datos.owner}</Text>
+            <View style={styles.container}>
+                 <Image 
+                    source={{uri:this.props.infoPost.datos.fotoUrl}}
+                    style={ styles.postImg }
+                />
                 <Text>Texto: {this.props.infoPost.datos.textoPost}</Text>
-                <Text>cantidad de likes: {this.state.cantidadDeLikes}</Text>
+                <Text>Autor: {this.props.infoPost.datos.owner}</Text>
+                <Text style={styles.likeSection}>cantidad de likes: {this.state.cantidadDeLikes}</Text>
 
-                {/* If ternario */}
-                {this.state.like ? 
-                <TouchableOpacity onPress={()=>this.unLike()}>
-                    QuitarLike
-                </TouchableOpacity>
-                :
-                <TouchableOpacity onPress={()=>this.likear()}>
-                    Like
-                </TouchableOpacity>
-                }
-                
+                <View>
+                    {/* If ternario */}
+                    {this.state.like ? 
+                    <TouchableOpacity style={styles.likeButton} onPress={()=>this.unLike()}>
+                        <Text style={styles.likeButtonText}>QuitarLike</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={styles.likeButton } onPress={()=>this.likear()}>
+                        <Text style={styles.likeButtonText}>Like</Text>
+                    </TouchableOpacity>
+                    }
+                </View>    
                 
             </View>
         )
     }
 }
-
-
+const styles = StyleSheet.create({
+    container:{
+        marginVertical: 10,
+        marginHorizontal:5,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 6,
+    },
+    likeSection:{
+        marginTop: 10,
+        marginVertical: 5
+    },
+    likeButton:{
+        backgroundColor:'#28a745',
+        paddingHorizontal: 10,
+        paddingVertical: 6,
+        borderRadius:4, 
+        borderWidth:1,
+        borderStyle: 'solid',
+        borderColor: '#28a745',
+        width:100
+        
+    },
+    likeButtonText:{
+        color:"#fff",
+        textAlign:"center"
+    },
+    postImg:{
+        marginTop: 20,
+        marginBottom: 10,
+        height:300,
+        width:"100%"
+    }
+})
 
 export default Post;

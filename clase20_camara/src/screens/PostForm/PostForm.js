@@ -1,4 +1,4 @@
-import react, { Component } from 'react';
+import React, { Component } from 'react';
 import {db, auth } from '../../firebase/config';
 import MyCamera from '../../components/My-Camera/My-Camera';
 import {TextInput, TouchableOpacity, View, Text, StyleSheet} from 'react-native';
@@ -22,7 +22,11 @@ class PostForm extends Component {
             likes:[],
             createdAt: createdAt //Date.now(), 
         })
-        .then( res => console.log(res))
+        .then( res => {
+            console.log("Creando nuevo post...");
+            //Redirigir al usuario a la home del sitio.
+            this.props.navigation.navigate('Home')
+        })
         .catch( e => console.log(e))
     }
 
@@ -34,30 +38,36 @@ class PostForm extends Component {
 
     render(){
         return(
-            <View style={styles.formContainer}>
+            <View style={styles.container}>
                 <Text>New Post</Text>
                 {/* Corregir estilos para que se vea bien la cámara */}
-                <MyCamera style={styles.camera} traerUrlDeFoto = {url=>this.traerUrlDeFoto(url)} />
-                <TextInput
-                    style={styles.input}
-                    onChangeText={(text)=>this.setState({textoPost: text})}
-                    placeholder='Escribir...'
-                    keyboardType='default'
-                    value={this.state.textoPost}
-                    />
-                <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, this.state.fotoUrl, Date.now())}>
-                    <Text style={styles.textButton}>Postear</Text>    
-                </TouchableOpacity>
+                <MyCamera style={styles.camara} traerUrlDeFoto = {url=>this.traerUrlDeFoto(url)} />
+                <View style={styles.form}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text)=>this.setState({textoPost: text})}
+                        placeholder='Escribir...'
+                        keyboardType='default'
+                        value={this.state.textoPost}
+                        />
+                    <TouchableOpacity style={styles.button} onPress={()=>this.crearPost(auth.currentUser.email, this.state.textoPost, this.state.fotoUrl, Date.now())}>
+                        <Text style={styles.textButton}>Postear</Text>    
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    formContainer:{
-        paddingHorizontal:10,
-        marginTop: 20,
-        flex:6
+    container:{
+        marginHorizontal: 10
+    },
+    camara:{
+        // flex:7
+    },
+    form:{
+        marginTop: 20
     },
     input:{
         height:20,
@@ -82,9 +92,6 @@ const styles = StyleSheet.create({
     textButton:{
         color: '#fff'
     },
-    camera:{
-        height: 400,
-    }
 
 })
 

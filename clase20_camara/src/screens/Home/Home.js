@@ -45,7 +45,7 @@ class Home extends Component {
     render(){
         console.log(this.state);
         return(
-            <View>
+            <View style={styles.container}>
                 <Text>HOME</Text>
                 <TouchableOpacity onPress={()=>this.logout()}>
                     <Text>Logout</Text>
@@ -69,6 +69,10 @@ class Home extends Component {
     }
 }
 
-
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+})
 
 export default Home;
