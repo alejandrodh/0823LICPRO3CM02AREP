@@ -58,7 +58,7 @@ class Post extends Component {
     render(){
         console.log(this.props);
         return(
-            <View>
+            <View style={styles.post}>
                 <Text>Datos del Post</Text>
                 <Text> Email: {this.props.infoPost.datos.owner}</Text>
                 <Text>Texto: {this.props.infoPost.datos.textoPost}</Text>
@@ -67,11 +67,11 @@ class Post extends Component {
                 {/* If ternario */}
                 {this.state.like ? 
                 <TouchableOpacity onPress={()=>this.unLike()}>
-                    QuitarLike
+                    <Text>QuitarLike</Text>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity onPress={()=>this.likear()}>
-                    Like
+                    <Text>Like</Text>
                 </TouchableOpacity>
                 }
                 
@@ -81,6 +81,13 @@ class Post extends Component {
     }
 }
 
-
+const styles = StyleSheet.create({
+  post: {
+    marginVertical: 5,
+    padding: 5,
+    border:"1px solid #999",
+    backgroundColor: "#fafafa"
+  },
+});
 
 export default Post;

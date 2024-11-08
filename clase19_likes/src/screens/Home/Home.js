@@ -13,7 +13,7 @@ class Home extends Component {
 
     componentDidMount(){
         //Traer datos
-        db.collection('posts').onSnapshot(
+        db.collection('posts').orderBy("createdAt","desc").onSnapshot(
             posteos => {
                 let postsAMostrar = [];
 
@@ -36,8 +36,8 @@ class Home extends Component {
 
     logout(){
         auth.signOut();
-         //Redirigir al usuario a la home del sitio.
-        // this.props.navigation.navigate('Login')
+         //Redirigir al usuario al Login.
+        this.props.navigation.navigate('Login')
     }
 
 
@@ -45,7 +45,7 @@ class Home extends Component {
     render(){
         console.log(this.state);
         return(
-            <View>
+            <View style={styles.container}>
                 <Text>HOME</Text>
                 <TouchableOpacity onPress={()=>this.logout()}>
                     <Text>Logout</Text>
@@ -69,6 +69,13 @@ class Home extends Component {
     }
 }
 
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+});
 
 export default Home;
